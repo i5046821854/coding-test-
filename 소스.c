@@ -1,43 +1,33 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "stdio.h"
-#include "string.h"
-
 
 int main(void)
 {
-	char arr[50][50];
-	int n, m;
-	int num = 0;
-	int a=0, b=0;
-	int i, j;
-	scanf("%d %d", &n, &m);
-	getchar();
-	for (i = 0; i < n; i++)
+	int arr[1000];
+	int cnt=0;
+	int a, b;
+	int min;
+	scanf("%d", &a);
+	for (int i = 0; i < a; i++)
 	{
-		scanf("%s", arr[i]);
-	}
-	for (i = 0; i < n; i++)
-	{
-		for (j = 0; j < m; j++)
+		scanf("%d", &b);
+		for (int j = 0; j < b; j++)
 		{
-			if (arr[i][j] == 'X')
-				break;
+			scanf("%d", &arr[j]);
 		}
-		if (j == m)
-			a++;
-	}
-	for (j = 0; j < m; j++)
-	{
-		for (i = 0; i < n; i++)
-		{
-			if (arr[i][j] == 'X')
-				break;
+		for (int m = 0; m < b; m++) {
+			for (int n = 0; n < b - 1; n++)
+			{
+				if (arr[n] > arr[n + 1])
+				{
+					int temp = arr[n + 1];
+					arr[n + 1] = arr[n];
+					arr[n] = temp;
+					cnt++;
+				}
+			}
 		}
-		if (i == n)
-			b++;
+		printf("%d\n", cnt);
+		cnt = 0;
 	}
-	int result = a > b ? a : b;
-	printf("%d", result);
-	return 0;
-
 }
