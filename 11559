@@ -1,0 +1,105 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+char arr[12][6];
+int visit[12][6] = { 0, };
+int result = 0;
+vector<pair<int, int>> vec;
+int num = 0;
+int flag = 0;
+void bfs(int row, int col, char ch)
+{
+	if ((arr[row][col] != ch) || (visit[row][col] == 1) || row == -1 || row == 12 || col == -1 || col == 6)
+	{
+		return;
+	}
+	else {
+		vec.push_back(make_pair(row, col));
+		visit[row][col] = 1;
+		num++;
+		bfs(row + 1, col, ch);
+		bfs(row, col + 1, ch);
+		bfs(row - 1, col, ch);
+		bfs(row, col - 1, ch);
+	}
+}
+
+void erase(void)
+{
+	int row;
+	int col;
+	for(int i = 0 ; i< vec.size(); i++)
+	{
+		row = vec[i].first;
+		col = vec[i].second;
+		arr[row][col] = '.';
+	}
+}
+
+void fix(void)
+{
+	for (int i = 10; i >= 0; i--)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			if (arr[i][j] != '.')
+			{
+				while (arr[i+1][j] == '.' && i+1 < 12)
+				{
+					arr[i+1][j] = arr[i][j];
+					arr[i][j] = '.';
+					i++;
+				}
+			}
+		}
+	}
+}
+
+int main(void)
+{
+	for (int i = 0; i < 12; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	while (1)
+	{
+		flag = 0;
+		memset(visit, 0, sizeof(visit));
+		for (int i = 0; i < 12; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				num = 0;
+				if ((arr[i][j] != '.') && (visit[i][j] == 0))
+				{
+					//printf("%d %d : ", i, j);
+					bfs(i, j, arr[i][j]);
+					if (num >= 4)
+					{
+						erase();
+						//printf("d\n");
+						flag++;
+					}
+					vec.clear();
+				}
+			}
+		}
+		if (flag != 0)
+			result++;
+		else
+		{
+			printf("%d", result);
+			return 0;
+		}
+		fix();
+	}
+
+}
