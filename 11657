@@ -1,0 +1,59 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <vector>
+
+using namespace std;
+
+vector<pair<int, pair<int, int>>>vec;
+long long dis[510];
+
+int node, edge;
+int main(void)
+{
+	scanf("%d %d", &node, &edge);
+	int node1, node2, cost;
+	for (int i = 0; i < edge; i++)
+	{
+		scanf("%d %d %d", &node1, &node2, &cost);
+		vec.push_back(make_pair(cost, make_pair(node1, node2)));
+	}
+	for (int i = 1; i <= node; i++)
+	{
+		dis[i] = 1e9;
+	}
+	dis[1] = 0;
+	for (int i = 1; i < node; i++)
+	{
+		for (int j = 0; j < vec.size(); j++)
+		{
+			int from = vec[j].second.first;
+			int to = vec[j].second.second;
+			int price = vec[j].first;
+
+			if (dis[from] == 1e9)
+				continue;
+			if (dis[to] > dis[from] + price)
+				dis[to] = dis[from] + price;
+		}
+	}
+	for (int j = 0; j < vec.size(); j++)
+	{
+		int from = vec[j].second.first;
+		int to = vec[j].second.second;
+		int price = vec[j].first;
+		if (dis[from] == 1e9)
+			continue;
+		if (dis[to] > dis[from] + price)
+		{
+			printf("-1\n");
+			return 0;
+		}
+	}
+	for (int i = 2; i <= node; i++)
+	{
+		if (dis[i] == 1e9)
+			printf("-1\n");
+		else
+			printf("%lld\n", dis[i]);
+	}
+}
