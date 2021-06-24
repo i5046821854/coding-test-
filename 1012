@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <algorithm>
+#include <queue>
+#include <string.h>
+
+using namespace std;
+
+bool arr[52][52];
+bool visit[52][52];
+int moveX[4] = {0,1,0,-1};
+int moveY[4] = { -1,0,1,0 };
+
+int cab;
+int row;
+int col;
+
+int result = 0;
+queue<pair<int, int>>q;
+
+int main(void) {
+	
+	int test;
+	scanf("%d", &test);
+	for (int i = 0; i < test; i++)
+	{
+		result = 0;
+		memset(visit, 0, sizeof(visit));
+		memset(arr, 0, sizeof(arr));
+		scanf("%d %d %d", &row, &col, &cab);
+		int tempX, tempY;
+		for (int i = 0; i < cab; i++)
+		{
+			scanf("%d %d", &tempX, &tempY);
+			arr[tempX][tempY] = 1;
+		}
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+			{
+				visit[i][j] = 1;
+				if (arr[i][j] == 1)
+				{
+					result++;
+					q.push(make_pair(i, j));
+					while (!q.empty())
+					{
+						int trow = q.front().first;
+						int tcol = q.front().second;
+						q.pop();
+						arr[trow][tcol] = 0;
+						for (int i = 0; i < 4; i++)
+						{
+							int tempRow = trow + moveX[i];
+							int tempCol = tcol + moveY[i];
+							if ((arr[tempRow][tempCol] == 1) && (tempRow != row) && (tempRow != -1) && (tempCol != col) && (tempCol != -1) && visit[tempRow][tempCol] != 1)
+							{
+								q.push(make_pair(tempRow, tempCol));
+								visit[tempRow][tempCol] = 1;
+							}
+						}
+					}
+				}
+			}
+		}
+		printf("%d\n", result);
+	}
+}
