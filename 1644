@@ -1,0 +1,54 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <vector>
+#include <stdlib.h>
+using namespace std;
+
+int * arr;
+vector<int> vec;
+
+void sosu(int num)
+{
+	for (int i = 2; i <= num; i++)
+	{
+		if (arr[i] == 0)
+		{
+			for (int j = 2; i * j <= num; j++)
+				arr[i * j] = 1;
+		}
+	}
+
+	for (int i = 2; i <= num; i++)
+	{
+		if (arr[i] == 0)
+			vec.push_back(i);
+	}
+}
+int result = 0;
+void find(int num)
+{
+	int start = 0;
+	int sum = 0;
+	for (int i = 0; i < vec.size(); i++)
+	{
+		sum += vec[i];
+		while (sum >= num)
+		{
+			if (sum == num)
+				result++;
+			sum = sum - vec[start];
+			start++;
+		}
+	}
+}
+
+int main(void)
+{
+	int num;
+	scanf("%d", &num);
+	arr = (int *)calloc(num+1, sizeof(int));
+	arr[1] = 0;
+	sosu(num);
+	find(num);
+	printf("%d", result);
+}
