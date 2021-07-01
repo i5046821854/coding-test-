@@ -1,0 +1,69 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int ver[4] = { 0,1,0,-1 };
+int hor[4] = { -1,0,1,0 };
+
+
+char arr[25][25];
+int visit[25][25] = { 0, };
+vector<int> vec;
+
+int temp = 0;
+int number = 0;
+int num;
+void check(int row, int col)
+{
+	if (row == -1 || col == -1 || row == num || col == num)
+	{
+		return;
+	}
+	visit[row][col] = 1;
+	if (arr[row][col] == '1')
+	{
+		temp++;
+		arr[row][col] = '2';
+		for (int i = 0; i < 4; i++)
+		{
+			if(visit[row + hor[i]][col + ver[i]] == 0)
+				check(row + hor[i], col + ver[i]);
+		}
+	}
+}
+
+int main(void)
+{
+	scanf("%d", &num);
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			if (arr[i][j] == '1')
+			{
+				number++;
+				check(i, j);
+				vec.push_back(temp);
+				temp = 0;
+				//printf("%d %d %d\n", i, j, temp);
+			}
+		}
+	}
+	sort(vec.begin(), vec.end());
+	printf("%d\n", number);
+	for (int i = 0; i < vec.size(); i++)
+	{
+		printf("%d\n", vec[i]);
+	}
+}
