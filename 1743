@@ -1,0 +1,51 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+
+int ver[4] = { -1,0,1,0 };
+int hor[4] = { 0,1,0,-1 };
+int arr[102][102] = { 0, };
+int max = 0;
+int temp = 0;
+int x, y;
+void find(int row, int col)
+{
+	if (row == 0 || row == x + 1 || col == 0 || col == y + 1)
+	{
+		return;
+	}
+	if (arr[row][col] == 1)
+	{
+		temp++;
+		if (temp > max)
+			max = temp;
+		arr[row][col] = 2;
+		for (int i = 0; i < 4; i++)
+		{
+				find(row + ver[i], col + hor[i]);
+		}
+	}
+	else
+		arr[row][col] = 2;
+}
+
+int main(void)
+{
+	int num;
+	int xpos, ypos;
+	scanf("%d %d %d", &x, &y, &num);
+	for (int i = 0; i < num; i++)
+	{
+		scanf("%d %d", &xpos, &ypos);
+		arr[xpos][ypos] = 1;
+	}
+	for (int i = 1; i <= x; i++)
+	{
+		for (int j = 1; j <= y; j++)
+		{
+			if (arr[i][j] == 1)
+				find(i, j);
+			temp = 0;
+		}
+	}
+	printf("%d", max);
+}
