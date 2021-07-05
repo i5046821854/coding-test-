@@ -1,0 +1,30 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+int arr[1001] = { 0, };
+int dp[1001] = { 0, };
+int result = 1;
+int main(void) {
+
+	int num;
+	scanf("%d", &num);
+	for(int i = 0 ; i< num; i++)
+	{
+		scanf("%d", &arr[i]);
+	}
+	dp[0] = 1;
+	for (int i = 1; i < num; i++)
+	{
+		dp[i] = 1;
+		for (int k = 0; k < i; k++)
+		{
+			if (arr[i] > arr[k])
+				dp[i] = max(dp[i], dp[k] + 1);
+		}
+		if (dp[i] > result)
+			result = dp[i];
+	}
+	printf("%d", result);
+}
