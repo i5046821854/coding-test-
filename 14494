@@ -1,0 +1,27 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <algorithm>
+
+long long dp[1001][1001] = { 0, };
+
+int row, col;
+
+int main(void)
+{
+	scanf("%d %d", &row, &col);
+	dp[1][1] = 1;
+	for (int i = 1; i <= row; i++)
+	{
+		for (int j = 1; j <= col; j++)
+		{
+			if (i + 1 <= row)
+				dp[i + 1][j] += (dp[i][j] % 1000000007);
+			if (j + 1 <= col)
+				dp[i][j + 1] += (dp[i][j] % 1000000007);
+			if (i + 1 <= row && j + 1 <= col)
+				dp[i + 1][j + 1] += (dp[i][j] % 1000000007);
+			//printf("%d %d %d\n", i, j, dp[i][j]);
+		}
+	}
+	printf("%lld", dp[row][col] % 1000000007);
+}
