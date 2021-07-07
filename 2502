@@ -1,0 +1,27 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+long long dp[31];
+int main(void)
+{
+	int day, num;
+	scanf("%d %d", &day, &num);
+	dp[day] = num;
+	for (int k = num-1 ; k >= 0; k--)
+	{
+		dp[day - 1] = k;
+		for (int i = day; i >= 3; i--)
+		{
+			dp[i - 2] = dp[i] - dp[i - 1];
+			if (dp[i - 2] <= 0)
+				break;
+			if (i == 3)
+			{
+				printf("%lld\n%lld", dp[1], dp[2]);
+				return 0;
+			}
+		}
+	}
+}
