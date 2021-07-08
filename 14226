@@ -1,0 +1,48 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <queue>
+
+using namespace std;
+int arr[1001][1001] = { 0, };
+queue<pair<pair<int, int>, int>> q;
+
+int main(void)
+{
+	int num;
+	scanf("%d", &num);
+	q.push(make_pair(make_pair(1, 0), 0));
+	arr[1][0] = 1;
+	while (!q.empty())
+	{
+		int emo = q.front().first.first;
+		int act = q.front().first.second;
+		int time = q.front().second;
+		q.pop();
+		if (emo == num)
+		{
+			printf("%d", time);
+			return 0;
+		}
+		if (emo > 0 && emo < 1001)
+		{
+			if (arr[emo][emo] == 0)
+			{
+				arr[emo][emo] = 1;
+				q.push(make_pair(make_pair(emo, emo), time+1));
+			}
+			if (arr[emo-1][act] == 0)
+			{
+				arr[emo-1][act] = 1;
+				q.push(make_pair(make_pair(emo-1, act), time+1));
+			}
+		}
+		if (act > 0 && emo + act < 1001)
+		{
+			if (arr[emo + act][act] == 0)
+			{
+				arr[emo + act][act] = 1;
+				q.push(make_pair(make_pair(emo + act, act), time + 1));
+			}
+		}
+	}
+}
