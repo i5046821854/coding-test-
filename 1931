@@ -19,7 +19,7 @@ int main(void)
 	sort(vec.begin(), vec.end());
 	int time = vec[0].first;
 	int result = 1;
-	for (int i = 0; i < num; i++)
+	for (int i = 1; i < num; i++)
 	{
 		if (time <= vec[i].second)
 		{
