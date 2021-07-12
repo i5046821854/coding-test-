@@ -1,0 +1,31 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<pair<int ,int>>vec;
+
+int main(void)
+{
+	int num, start, end;
+	scanf("%d", &num);
+	for (int i = 0; i < num; i++)
+	{
+		scanf("%d %d", &start, &end);
+		vec.push_back(make_pair(end, start));
+	}
+	sort(vec.begin(), vec.end());
+	int time = vec[0].first;
+	int result = 1;
+	for (int i = 0; i < num; i++)
+	{
+		if (time <= vec[i].second)
+		{
+			result++;
+			time = vec[i].first;
+		}
+	}
+	printf("%d", result);
+}
