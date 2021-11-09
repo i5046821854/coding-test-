@@ -1,0 +1,64 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+vector<char> q;
+
+int R, C;
+char arr[20][20];
+
+int ver[4] = { 1,0,-1,0 };
+int hor[4] = { 0,1,0,-1 };
+int result = 0;
+int dup(char target) {
+	for (int i = 0; i < q.size(); i++) {
+		if (q[i] == target)
+			return 2;
+	}
+	return 1;
+}
+
+void print() {
+	for (int i = 0; i < q.size(); i++) {
+		printf("%c||", q[i]);
+	}
+}
+void dfs(int row, int col, int len) {
+	int row2, col2;
+	for (int i = 0; i < 4; i++)
+	{
+		row2 = row + ver[i];
+		col2 = col + hor[i];
+		if(row2 == -1 || row2 == R || col2 == -1 || col2 == C)
+		{
+			continue;
+		}
+		if(dup(arr[row2][col2]) == 1)
+		{
+			q.push_back(arr[row2][col2]);
+			dfs(row2, col2, len+1);
+			q.pop_back();
+		}
+	}
+	if (result <= len)
+	{
+		result = len;
+	}
+}
+
+int main(void) {
+	cin >> R >> C;
+	for (int i = 0; i < R; i++)
+	{
+		for (int j = 0; j < C; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	q.push_back(arr[0][0]);
+	dfs(0, 0,1);
+	printf("%d", result);
+	return 0;
+}
