@@ -1,0 +1,121 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+queue<pair<int, int>> q;
+int arr[8][8];
+int temp[8][8];
+int n, m;
+int ver[4] = { 1,0,-1,0 };
+int hor[4] = { 0,1,0,-1 };
+int result = 0;
+void copy(void) {
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			temp[i][j] = arr[i][j];
+		}
+	}
+}
+
+
+void print() {
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			printf("%d ", temp[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+
+void bfs() {
+	copy();
+	int tmp = 0;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++) {
+			if (temp[i][j] == 2)
+				q.push(make_pair(i, j));
+		}
+	}
+	int row, col, row2, col2;
+
+	while (!q.empty())
+	{	
+		row = q.front().first;
+		col = q.front().second;
+		q.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			row2 = row + ver[i];
+			col2 = col + hor[i];
+			if (row2 == -1 || col2 == -1 || row2 == n  || col2 == m )
+				continue;
+			else
+			{
+				if (temp[row2][col2] == 0) {
+					temp[row2][col2] = 2;
+					q.push(make_pair(row2, col2));
+				}
+			}
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++) {
+			if (temp[i][j] == 0)
+				tmp++;
+		}
+	}
+	if (tmp >= result)
+	{
+		result = tmp;
+	}
+	while (!q.empty()) {
+		q.pop();
+	}
+}
+
+void findWall(int idx, int zero) {
+	if (zero == 3)
+	{
+		bfs();
+		return;
+	}
+	for (int i = idx; i < n * m; i++)
+	{
+		int row = i / m;
+		int col = i % m;
+		if (arr[row][col] == 0)
+		{
+			arr[row][col] = 1;
+			findWall(i + 1, zero + 1);
+			arr[row][col] = 0;
+
+		}
+
+	}
+}
+
+
+int main(void) {
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++) {
+			cin >> arr[i][j];
+			temp[i][j] = arr[i][j];
+		}
+	}
+	int zero = 0;
+	findWall(0, zero);
+	printf("%d", result);
+	return 0;
+}
