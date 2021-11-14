@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+int dp[101][100001] = { 0, };
+int val[101];
+int weight[101];
+int result = 0;
+int main(void) {
+	int k, w;
+	cin >> k >> w;
+	for (int i = 1; i <= k; i++)
+	{
+		cin >> weight[i];
+		cin >> val[i];
+	}
+		
+	for (int i = 1; i <= k; i++)
+	{
+		for (int j = 0; j <= w; j++)
+		{
+			dp[i][j] = max(dp[i][j],dp[i - 1][j]);
+			if (j + weight[i] <= w)
+			{
+				dp[i][j + weight[i]] = max(dp[i][j + weight[i]], dp[i - 1][j] + val[i]);
+				result = max(result, dp[i][j + weight[i]]);
+			}
+		}
+	}
+
+
+
+	printf("%d", result);
+}
