@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+long long n, c, w;
+long long dp[50];
+
+int main(void) {
+    cin >> n >> c >> w;
+    long long temp = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> dp[i];
+        temp = max(temp, dp[i]);
+    }
+    long long result = 0;
+    long long tmp = 0;
+    for (int i = 1; i <= temp; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (dp[j] >= i)
+            {
+                if (dp[j] % i == 0)
+                {
+                    if ((dp[j] / i * w * i) - ((dp[j] / i - 1) * c) > 0)
+                    {
+                        //printf("%lld | ", (dp[j] / i * w * i) - ((dp[j] / i - 1) * c));
+                        tmp += (dp[j] / i * w * i) - ((dp[j] / i - 1) * c);
+                    }
+                }
+                else
+                {
+                    if ((dp[j] / i * w * i) - (dp[j] / i * c) > 0) {
+
+                        //printf("%lld | ", (dp[j] / i * w * i) - ((dp[j] / i - 1) * c));
+                        tmp += (dp[j] / i * w * i) - (dp[j] / i * c);
+                    }
+                        
+                }
+            }
+        }
+        //printf("%lld\n", tmp);
+        result = max(result, tmp);
+        tmp = 0;
+    }
+    printf("%lld", result);
+    return 0;
+}
