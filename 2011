@@ -1,0 +1,64 @@
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+char arr[5001];
+int dp[5000][2] = { 0, };
+
+int main(void) {
+    dp[-1][0] = 0;
+	dp[-1][1] = 1;
+	cin >> arr;
+	int temp = 1;
+    if(arr[0] - '0' == 0)
+    {    printf("0");
+         return 0;
+    }
+	for (int i = 0; i < strlen(arr); i++)
+	{
+		while ((arr[i] - '0') == 2 || (arr[i] - '0') == 1)
+		{
+			dp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % 1000000;
+			dp[i][1] = (dp[i - 1][0]) % 1000000;
+			if (i == strlen(arr)-1)
+			{
+				temp = (temp * (dp[i][0] + dp[i][1])) % 1000000;
+				//printf("%d %d %d", dp[i][0], dp[i][1], temp);
+				printf("%d", temp % 1000000);
+				return 0;
+			}
+			i++;
+		}
+		if (((arr[i] - '0') > 6) && (arr[i - 1] - '0' == 2))
+		{
+			dp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % 1000000;
+			dp[i][1] = 0;
+			
+		}
+		else if ((arr[i] - '0') == 0)
+		{
+			if ((arr[i - 1] - '0' == 1) || (arr[i - 1] - '0' == 2))
+			{
+				dp[i][0] = 0;
+				dp[i][1] = (dp[i - 1][0]) % 1000000;
+			}
+			else {
+				printf("0");
+				return 0;
+			}
+		}
+		else
+		{
+			dp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % 1000000;
+			dp[i][1] = (dp[i - 1][0]) % 1000000;
+		}
+		temp = (temp * (dp[i][0] + dp[i][1])) % 1000000;
+		//printf("%d %d %d\n", dp[i][0], dp[i][1], temp);
+		dp[i][0] = 0;
+		dp[i][1] = 1;
+	}
+	printf("%d", temp % 1000000);
+	return 0;
+}
