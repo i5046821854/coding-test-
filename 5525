@@ -1,0 +1,51 @@
+#include <algorithm>
+#include <cstdio>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+	int n, len;
+	string str;
+	cin >> n >> len >> str;
+	int i = 1; 
+	int temp = 0;
+	int result = 0;
+	int start = 0;
+	while (i < str.length())
+	{
+		if (str[i] == 'O')
+		{
+			if (str[i - 1] == 'I')
+			{
+				temp++;
+			}
+			else
+			{
+				temp = 0;
+				i = str.find('I', i);
+				continue;
+			}
+		}
+		else
+		{
+			if (str[i - 1] == 'O')
+			{
+				if (temp == n)
+				{
+					result++;
+					temp--;
+				}
+			}
+			else
+			{
+				temp = 0;
+			}
+		}
+		i++;
+	}
+	printf("%d", result);
+	return 0;
+}
