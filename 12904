@@ -1,0 +1,56 @@
+#include <algorithm>
+#include <cstdio>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+bool result = false;
+
+void find(string start, string end)
+{
+	if (!start.compare(end))
+	{
+		result = true;
+		return;
+	}
+	else
+	{
+		char last = start.substr(start.length() - 1, start.length())[0];
+		//printf("%c\n", last);
+		if (last == 'A')
+		{
+			start = start.substr(0, start.length() - 1);
+		}
+		else
+		{
+			start = start.substr(0, start.length() - 1);
+			reverse(start.begin(), start.end());
+		}
+		if (start.length() == end.length())
+		{
+			if (!start.compare(end))
+				result = true;
+			return;
+		}
+		else
+		{
+			find(start, end);
+		}
+	}
+}
+
+
+int main(void)
+{
+	string start, end;
+	cin >> end >> start;
+	find(start, end);
+	if (result)
+	{
+		printf("1");
+	}
+	else
+		printf("0");
+	return 0;
+}
