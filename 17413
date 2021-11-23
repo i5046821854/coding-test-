@@ -1,0 +1,44 @@
+#include <algorithm>
+#include <cstdio>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int main(void)
+{
+	string str;
+	string temp;
+	getline(cin, str);
+	int prev = 0;
+	int cur = 0;
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] == ' ')
+		{
+			reverse(temp.begin(), temp.end());
+			cout << temp << " ";
+			temp.clear();
+			
+		}
+		else if (str[i] == '<')
+		{
+			reverse(temp.begin(), temp.end());
+			cout << temp;
+			temp.clear();
+			while (str[i] != '>')
+			{
+				printf("%c", str[i]);
+				i++;
+			}
+			printf("%c", str[i]);
+		}
+		else
+		{
+			temp += str[i];
+		}
+	}
+	reverse(temp.begin(), temp.end());
+	cout << temp;
+	return 0;
+}
