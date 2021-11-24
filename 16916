@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <string>
+#include <vector>
+using namespace std;
+
+int result = 0;
+vector<int> makePi(string str)
+{
+	int m = str.size();
+	vector<int> pi(m, 0);
+	int j = 0;
+	for (int i = 1; i < str.length(); i++)
+	{
+		while(j > 0 && str[i] != str[j])
+		{
+			j = pi[j - 1];
+		}
+		if (str[i] == str[j])
+		{
+			pi[i] = ++j;
+		}
+	}
+	return pi;
+}
+
+void KMP(vector<int>pi, string target, string cmp)
+{
+	int m = target.size();
+	int n = cmp.size();
+	int j = 0;
+	for (int i = 0; i < m; i++)
+	{
+		while (j > 0 && target[i] != cmp[j])
+		{
+			j = pi[j-1];
+		}
+		if (target[i] == cmp[j])
+		{
+			if (j == n - 1) {
+				result = 1;
+				return;
+			}
+			else {
+				j++;
+			}
+		}
+	}
+
+}
+
+int main(void) {
+	string target;
+	string cmp;
+
+	cin >> target >> cmp;
+	vector<int> pi = makePi(cmp);
+	KMP(pi, target, cmp);
+	printf("%d", result);
+	return 0;
+}
