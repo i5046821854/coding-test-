@@ -1,0 +1,87 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct trie
+{
+    bool finish;
+    trie* node[10];
+    trie()
+    {
+        finish = false;
+        for (int i = 0; i < 10; i++)
+        {
+            node[i] = NULL;
+        }
+    }
+    bool find(char* str)
+    {
+        if (*str == NULL)
+        {
+            return false;
+        }
+        if (finish == true)
+            return true;
+        int idx = *str - '0';
+        //printf("%c", *str);
+        if (node[idx] == NULL)
+        {
+            //printf("\n");
+            return false;
+        }
+    
+        return node[idx]->find(str + 1);
+    }
+
+    void insert(char* str)
+    {
+        if (*str == NULL)
+        {
+            //printf(" zzz\n");
+            finish = true;
+            return;
+        }
+        int Cur = *str - '0';
+        //printf("%d", Cur);
+        if (node[Cur] == NULL) node[Cur] = new trie();
+        node[Cur]->insert(str + 1);
+
+    }
+};
+
+int main(void) {
+
+
+    int n, num;
+    bool find = false;
+    char str[10001][11];
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        find = false;
+        cin >> num;
+        trie* root = new trie();
+        for (int j = 0; j < num; j++)
+        {
+            cin >> str[j];
+            root->insert(str[j]);
+        }
+        for (int j = 0; j < num; j++)
+        {
+            if (root->find(str[j]))
+            {
+                find = true;
+                break;
+            }
+        }
+        if (!find)
+            printf("YES\n");
+        else
+            printf("NO\n");
+        delete root;
+    }
+    return 0;
+}
