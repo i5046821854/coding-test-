@@ -1,0 +1,32 @@
+#include <string>
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+int main(void) {
+	float num = 0;
+	string str;
+	string add = "";
+	string temp;
+	cin >> str;
+	temp = str;
+	int len = str.length();
+	for (int i = 0; i < str.size()-1; i++)
+	{
+		if (str[i] == temp[len - 1 - i])
+			continue;
+		else
+		{
+			add = str[i] + add;
+			temp = str + add;
+			len = temp.length();
+		}
+	}
+
+	printf("%d", temp.length());
+	return 0;
+}
