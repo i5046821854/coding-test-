@@ -1,0 +1,73 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+int arr[50][50];
+
+
+int ver[4] = { -1,0,1,0 };
+int hor[4] = { 0,1,0,-1 };
+int row, col;
+int cnt = 0;
+
+void print(void)
+{
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			printf("%d ", arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void move(int row, int col, int dir, int val)
+{
+	if(val == 1)
+		cnt++;
+	arr[row][col] = 2;
+	int temprow, tempcol;
+	int tempdir = dir;
+	//printf("\n%d:  %d %d %d //",cnt,  row, col, dir);
+	for (int i = 0; i < 4; i++)
+	{
+		tempdir = (tempdir + 3) % 4;
+		temprow = row + ver[tempdir];
+		tempcol = col + hor[tempdir];
+		//printf(" %d %d %d //", temprow, tempcol, tempdir);
+		if (arr[temprow][tempcol] == 0) {
+			move(temprow, tempcol, tempdir,1);
+			return;
+		}
+	}
+	temprow = row + (ver[tempdir] * -1);
+	tempcol = col + (hor[tempdir] * -1);
+	if (arr[temprow][tempcol] != 1)
+	{
+		//printf("%d %d",  temprow, tempcol);
+		move(temprow, tempcol, tempdir,0);
+		return;
+	}
+	return;
+}
+
+int main(void) {
+	cin >> row >> col;
+	int r, c, d;
+	cin >> r >> c >> d;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	
+	move(r, c, d,1);
+	printf("%d", cnt);
+	return 0;
+
+}
