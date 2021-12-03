@@ -1,0 +1,69 @@
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <string>
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+using namespace std;
+
+int p[2001] = { 0, };
+char dp[2001][2001];
+int num;
+
+void makedp(int row, int col, char val) {
+
+	if (row < 0 || row >= num || col < 0 || col >= num)
+		return;
+	else if (val == '0')
+	{
+		dp[row][col] = '0';
+		makedp(row - 1, col + 1, '0');
+	}
+	else if (p[row] == p[col])
+	{
+		dp[row][col] = '1';
+		makedp(row - 1, col + 1, '1');
+	}
+	else {
+		dp[row][col] = '0';
+		makedp(row - 1, col + 1, '0');
+	}
+}
+
+
+int main(void) {
+	cin.tie(NULL);
+	std::ios::sync_with_stdio(false);
+
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> p[i];
+	}
+	for (int i = 0; i < num - 1; i++)
+	{
+		dp[i][i] = '1';
+		makedp(i - 1, i + 1, '1');
+		if (p[i] == p[i + 1]) {
+			dp[i][i + 1] = '1';
+			makedp(i - 1, i + 2, '1');
+		}
+		else {
+			dp[i][i + 1] = '0';
+			makedp(i - 1, i + 2, '0');
+		}
+	}
+	dp[num - 1][num - 1] = '1';
+
+	int que;
+	cin >> que;
+	int a, b;
+	for (int i = 0; i < que; i++)
+	{
+		cin >> a >> b;
+		printf("%c\n", dp[a - 1][b - 1]);
+	}
+	return 0;
+
+}
