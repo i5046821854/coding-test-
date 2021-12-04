@@ -1,0 +1,89 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+vector<pair<int, int>> chick;
+vector<pair<int, int>> city;
+vector<pair<int, int>> map;
+
+int arr[50][50];
+int n, m;
+int result = 987654321;
+
+int count() {
+	int temp = 987654321;
+	int dis = 0;
+	int result = 0;
+	for (int i = 0; i < city.size(); i++)
+	{
+		temp = 987654321;
+		for (int j = 0; j < map.size(); j++)
+		{
+			dis = 0;
+			if (city[i].first > map[j].first)
+			{
+				dis += (city[i].first - map[j].first);
+			}
+			else
+			{
+				dis += (map[j].first - city[i].first);
+			}
+			if (city[i].second > map[j].second)
+			{
+				dis += (city[i].second - map[j].second);
+			}
+			else
+			{
+				dis += (map[j].second - city[i].second);
+			}
+			if (temp > dis)
+				temp = dis;
+		}
+		result += temp;
+	}
+	return result;
+}
+
+void makeCh(int idx, int num) {
+	if (num == m)
+	{
+		result = min(result, count());
+		return;
+	}
+	while (idx < chick.size())
+	{
+		map.push_back(make_pair(chick[idx].first, chick[idx].second));
+		idx++;
+		makeCh(idx, num + 1);
+		map.pop_back();
+	}
+}
+
+
+int main(void) {
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin >> arr[i][j];
+			if (arr[i][j] == 1) {
+				city.push_back(make_pair(i, j));
+			}
+			else if (arr[i][j] == 2) {
+				chick.push_back(make_pair(i, j));
+
+			}
+		}
+	};
+	for (int i = 0; i < chick.size(); i++)
+	{
+		map.push_back(make_pair(chick[i].first, chick[i].second));
+		makeCh(i+1, 1);
+		map.pop_back();
+	}
+	printf("%d", result);
+}
