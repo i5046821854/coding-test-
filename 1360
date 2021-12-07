@@ -1,0 +1,65 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <string.h>
+#include <algorithm>
+using namespace std;
+vector<pair<int, pair<pair<string, int>, int>>>vec;
+
+
+int main(void)
+{
+	int num;
+	string cmd;
+	string ch;
+	int time;
+	cin >> num;
+	int size = 0;
+	int size2 = 0;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> cmd >> ch >> time;
+		if (!cmd.compare("undo"))
+		{
+			vec.push_back(make_pair(1,make_pair(make_pair(ch, time), 0)));
+		}
+		else
+		{
+			vec.push_back(make_pair(0, make_pair(make_pair(ch, time), 0)));
+		}
+	}
+	for (int i = num - 1; i >= 0; i--)
+	{
+		//printf("%d\n", i);
+		if (vec[i].first == 1)
+		{
+			if (vec[i].second.second % 2 == 0) {
+				int last = vec[i].second.first.second - (stoi(vec[i].second.first.first));
+				int idx = i - 1;
+				while (idx >= 0)
+				{
+					//printf("%d %d // ", vec[idx].second.first.second, last);
+					if (vec[idx].second.first.second >= last)
+					{
+						vec[idx].second.second++;
+					}
+					idx--;
+				}
+			}
+		}
+	}
+	for (int i = 0; i < num; i++)
+	{
+		if (vec[i].first == 0)
+		{
+			if (vec[i].second.second % 2 == 0)
+			{
+				cout << vec[i].second.first.first;
+			}
+		}
+	}
+	return 0;
+
+}
