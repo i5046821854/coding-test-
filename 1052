@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+
+int main(void) {
+	int a, b;
+	int N = 0;
+	cin >> a >> b;
+	while (1)
+	{
+		int temp = a + N;
+		int cnt = 0;
+		while (temp > 0)
+		{
+			if (temp % 2 == 0)
+				temp /= 2;
+			else {
+				temp /= 2;
+				cnt++;
+			}
+		}
+		if (cnt <= b) {
+			printf("%d", N);
+			return 0;
+		}
+		N++;
+	}
+	return 0;
+}
