@@ -1,0 +1,92 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <algorithm>
+#include <vector>
+
+typedef struct
+{
+	int num;
+	int vec[50];
+}Node;
+
+using namespace std;
+
+Node node[50];
+
+int erase;
+int cnt = 0;
+void dfs(int num) {
+
+	//printf("\n 시작 : %d >> ", num);
+	if (node[num].num == 0)
+	{
+		if (num != erase)
+		{//printf("%d ||", num);
+			cnt++;
+		}
+		return;
+	}
+	else
+	{
+		for (int i = 0; i < node[num].num; i++)
+		{
+			int temp = node[num].vec[i];
+			//printf("{%d %d %d) ", num , temp, erase);
+			if (temp == erase)
+			{
+				if (node[num].num == 1)
+					cnt++;
+				//printf("erase");
+				continue;
+			}
+			else {
+				//printf("dfs");
+				dfs(temp);
+			}
+
+		}
+	}
+
+}
+
+
+int main(void) {
+	int num;
+	cin >> num;
+	int root;
+	for (int i = 0; i < num; i++)
+	{
+		node[num].num = 0;
+	}
+	int nodeNum;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> nodeNum;
+		if (nodeNum != -1)
+		{
+			node[nodeNum].vec[node[nodeNum].num] = i;
+			node[nodeNum].num++;
+		}
+		else {
+			root = i;
+		}
+	}
+	/*
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < node[i].num; j++)
+		{
+			printf("%d ", node[i].vec[j]);
+		}
+		printf("\n");
+	}*/
+	cin >> erase;
+	if (erase == root) {
+		printf("0");
+		return 0;
+	}
+	dfs(root);
+	cout << cnt;
+	return 0;
+}
