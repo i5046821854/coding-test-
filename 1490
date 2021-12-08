@@ -1,0 +1,94 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+vector<char>vec;
+
+bool compare(char i, char j)
+{
+	return (j - '0') < (i - '0');
+}
+
+int get(int a, int b)
+{
+	int big, small;
+	if (a >= b)
+	{
+		big = a;
+		small = b;
+	}
+	else
+	{
+		big = b;
+		small = a;
+	}
+	int temp = big % small;
+	while (temp != 0)
+	{
+		big = small;
+		small = temp;
+		temp = big % small;
+	}
+	return small;
+}
+
+string str;
+
+int findStr(string str2)
+{
+	if (str2.find(str) != 0)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+int main(void) {
+	
+	cin >> str;
+	for (int i = 0; i < str.size(); i++)
+	{
+		vec.push_back(str[i]);
+	}
+	int gcb = vec[0] - '0';
+	int lcb = vec[0] - '0';
+	for (int i = 1; i < str.size(); i++)
+	{
+		int num = vec[i] - '0';
+		if (num == 0)
+		{
+			continue;
+		}
+		//printf("%d %d || \n", lcb, num);
+		lcb = lcb * num / get(lcb, num);
+	}
+	//cout << lcb << endl;
+	long long idx = 1;
+	long long temp;
+	long long from, to;
+	while (1)
+	{
+		from = stoll (str) * idx;
+		to = (stoll(str) + 1) * idx;
+		//printf("%lld %lld \n", from, to);
+		long long temp = from % lcb;
+		if (temp == 0)
+		{
+			cout << from;
+			return 0;
+		}
+		else
+		{
+			long long temp2 = lcb * ((from / lcb) + 1);
+			if (temp2 < to) {
+				cout << temp2;
+				return 0;
+			}
+		}
+		idx = idx * 10;
+	}
+	
+}
