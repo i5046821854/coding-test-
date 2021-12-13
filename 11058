@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cstring>
+
+using namespace std;
+
+long long dp[102] = { 0, };
+int cnt = 0;
+
+
+int main(void) {
+    int number;
+    cin >> number;
+    for (int i = 1; i <= number; i++)
+    {
+        dp[i] = i;
+    }
+    for (int i = 4; i <= number; i++)
+    {
+        int j = i - 3;
+        int by = 2;
+        while (j > 0)
+        {
+            dp[i] = max(dp[i], dp[j] * by);
+            j--;
+            by++;
+        }
+    }
+    printf("%lld", dp[number]);
+}
