@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+bool compare(pair<int, int> a, pair<int, int> b)
+{
+	return a.second < b.second;
+}
+
+priority_queue<pair<int, int>> pq;
+priority_queue<pair<int ,int>> pq2;
+
+int main(void) {
+	int num;
+	cin >> num;
+	int a, b;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> a >> b;
+		pq.push(make_pair(-a, -b));
+	}
+	int start, end;
+	start = pq.top().first;
+	end = pq.top().second;
+	pq2.push(make_pair(end, start));
+	int cnt = 1;
+	pq.pop();
+	while (!pq.empty())
+	{
+		start = pq.top().first;
+		end = pq.top().second;
+		pq.pop();
+		//printf("%d %d\n",start, pq2.top().first);
+		if (-start < -pq2.top().first)
+		{
+			pq2.push(make_pair(end, start));
+			cnt++;
+		}
+		else
+		{
+			pq2.pop();
+			pq2.push(make_pair(end, start));
+		}
+	}
+	printf("%d", cnt);
+}
