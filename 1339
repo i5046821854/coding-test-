@@ -1,0 +1,53 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <cmath>
+using namespace std;
+
+string str;
+long long arr[27] = { 0, };
+
+bool compare1(int a, int b)
+{
+	return a > b;
+}
+
+
+
+bool compare2 (int a, int b)
+{
+	return a > b;
+}
+
+bool compare3(char a, char b)
+{
+	return a > b;
+}
+
+
+int main(void)
+{
+	int num;
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> str;
+		int len = str.length();
+		for (int j = 0; j < len; j++)
+		{
+			arr[str[j] - 'A'] += (pow(10, len - 1 - j));
+			//printf("%d %d %d / ", str[j] - 'A', (int)pow(10, len - 1 - j), arr[str[j] - 'A']);
+		}
+		//printf("\n");
+	}
+	//printf("\n");
+	sort(arr, arr+26, compare2);
+	long long temp = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		temp += arr[i] * (9 - i);
+	}
+	printf("%lld", temp);
+}
