@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int a[100002];
+
+bool compare2 (int a, int b)
+{
+	return a > b;
+}
+
+int main(void)
+{
+	int num;
+	cin >> num;
+	for (int i = 1; i <= num; i++)
+	{
+		cin >> a[i];
+	}
+	sort(a+1, a + num+1, compare2);
+	int result = 0;
+	for (int i = 1; i <= num; i++)
+	{
+//		printf("%d\n", a[i]);
+		result = max(result, a[i] * i);
+	}
+	printf("%d", result);
+}
