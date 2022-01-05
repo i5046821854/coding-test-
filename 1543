@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void)
+{
+	string str1, str2;
+	getline(cin, str1);
+	getline(cin, str2);
+	int len = str2.length();
+	int cnt = 0;
+	int idx = 0;
+	for (int i = 0; i < str1.length(); i++)
+	{
+		bool flag = true;
+		int j;
+		for (j = 0; j < str2.length(); j++)
+		{
+			if (str1[i + j] != str2[j])
+				break;
+		}
+		if (j == str2.length()) {
+			i += str2.length();
+			cnt++;
+		}
+	}
+	printf("%d", cnt);
+
+}
