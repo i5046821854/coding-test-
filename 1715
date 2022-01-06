@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+int arr[100001];
+priority_queue<int, vector<int>, greater<int>> q;
+
+int main(void)
+{
+	int num;
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> arr[i];
+		q.push(arr[i]);
+	}
+	int result = 0;
+	if (num == 1) {
+		printf("0");
+		return 0;
+	}
+	int first, second;
+	while(1)
+	{
+		first = q.top();
+		q.pop();
+		if (q.empty())
+			break;
+		second = q.top();
+		q.pop();
+		q.push(first + second);
+		result += first + second;
+	}
+	printf("%d", result);
+}
