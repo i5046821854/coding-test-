@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int arr[10001];
+int arr2[10001];
+int main(void)
+{
+	int num;
+	cin >> num;
+	int number;
+	int result = 0;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> number;
+		for (int j = 0; j < number; j++)
+		{
+			cin >> arr[j];
+		}
+		sort(arr, arr + number);
+		for (int k = 0; k < (double)number / 2; k++)
+		{
+			arr2[k] = arr[k * 2];
+			//printf("%d +", arr[k * 2]);
+			if ((k * 2 + 1) != number) {
+				//printf("%d:", arr[k*2+1]);
+				arr2[number - 1 - k] = arr[k * 2 + 1];
+			}
+		}
+		result = abs(arr2[0] - arr2[number - 1]);
+		for (int j = 0; j < number - 1; j++)
+		{
+			result = max(result, abs(arr2[j] - arr2[j + 1]));
+		}
+		printf("%d\n", result);
+	}
+
+
+}
