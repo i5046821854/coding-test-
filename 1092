@@ -1,0 +1,69 @@
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <cstdio>
+using namespace std;
+
+vector<int> vec;
+vector<int> vec2;
+
+bool compare(int a, int b)
+{
+	return a > b;
+}
+
+int main(void)
+{
+	int N, M;
+	int a;
+	cin >> N;
+	int result = 1;
+	for (int i = 0; i < N; i++)
+	{
+		cin >> a;
+		vec.push_back(a);
+	}
+	cin >> M;
+	for (int i = 0; i < M; i++)
+	{
+		cin >> a;
+		vec2.push_back(a);
+	}
+	sort(vec.begin(), vec.end(), compare);
+	sort(vec2.begin(), vec2.end(), compare);
+	if (vec[0] < vec2[0])
+	{
+		printf("-1");
+		return 0;
+	}
+	int start = 0, idx = 0;
+	int ship, box;
+	int i, j;
+	while (1)
+	{
+		for (i = 0; i < vec.size(); i++)
+		{
+			ship = vec[i];
+			for (j = 0; j < vec2.size(); j++)
+			{
+				box = vec2[j];
+				//printf("%d %d\n", ship, box);
+				if (ship >= box)
+				{
+					vec2.erase(vec2.begin() + j);
+					if (vec2.empty())
+					{
+						printf("%d", result);
+						return 0;
+					}
+					break;
+				}
+			}
+			if (j == vec2.size())
+			{
+				vec.erase(vec.begin() + i);
+			}
+		}
+		result++;
+	}
+}
