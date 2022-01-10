@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <stack>
+using namespace std;
+vector<int> vec;
+
+int main(void)
+{
+	int number1 = 0;
+	int number2 = 1;
+	int temp;
+	vec.push_back(0);
+	vec.push_back(1);
+	while (number2 <= 1000000000)
+	{
+		temp = number1 + number2;
+		number1 = number2;
+		number2 = temp;
+		vec.push_back(temp);
+
+	}
+	int num;
+	cin >> num;
+	int number;
+	for (int i = 0; i < num; i++)
+	{
+		stack<int> stk;
+		cin >> number;
+		while (number != 0)
+		{
+			int nu = 0;
+			while (vec[nu] <= number)
+			{
+				nu++;
+			}
+			stk.push(vec[nu - 1]);
+			number -= vec[nu - 1];
+		}
+		while (!stk.empty())
+		{
+			printf("%d ", stk.top());
+			stk.pop();
+		}
+		printf("\n");
+	}
+}
