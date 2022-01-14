@@ -19,20 +19,11 @@ int main(void) {
 	int result = 0;
 	for (int i = 0; i < vec.size(); i++)
 	{
-		int num = K;
+		int num = K * -1;
 		int ai = vec[i];
-		while(num > 0)
+		while (num <= K)
 		{
-			if (ai - num >= 0)
-			{
-				if (arr[ai - num] == 'H')
-				{
-					result++;
-					arr[ai - num] = 'A';
-					break;
-				}
-			}
-			if(ai + num < K)
+			if (ai + num >= 0 && ai + num < N)
 			{
 				if (arr[ai + num] == 'H')
 				{
@@ -41,12 +32,8 @@ int main(void) {
 					break;
 				}
 			}
-			num--;
+			num++;
 		}
 	}
-	for (int i = 0; i < N; i++)
-	{
-		printf("%c", arr[i]);
-	}
-	printf("\n%d", result);
+	printf("%d", result);
 }
