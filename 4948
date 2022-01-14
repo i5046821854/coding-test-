@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+vector<int> vec;
+int arr[246913] = { 0, };
+int dp[246913] = { 0, };
+
+int N, K;
+
+int main(void) {
+	arr[1] = 1;
+	int num = 1;
+	for (int i = 2; i <= 246912; i++)
+	{
+		if (arr[i] == 0)
+		{
+			int by = 2;
+			while (i * by <= 246912)
+			{
+				arr[i * by] = 1;
+				by++;
+			}
+		}
+	}
+	for (int i = 1; i <= 246912; i++)
+	{
+		dp[i] = dp[i - 1];
+		if (arr[i] == 0)
+		{
+			dp[i]++;
+		}
+	}
+
+	while (num != 0)
+	{
+		cin >> num;
+		if(num != 0)
+			printf("%d\n", dp[num * 2] - dp[num]);
+	}
+}
