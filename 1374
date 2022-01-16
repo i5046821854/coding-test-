@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+vector<pair<int, int>>vec;
+priority_queue<int, vector<int>, greater<int>>pq;
+
+bool compare(pair<int, int> a, pair<int, int> b)
+{
+	return a.first < b.first;
+}
+int main(void) {
+	int num,a,b,c;
+	cin >> num;
+	int result = 1;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> a >> b >> c;
+		vec.push_back(make_pair(b, c));
+	}
+	sort(vec.begin(), vec.end(), compare);
+	pq.push(vec[0].second);
+	for (int i = 1; i < num; i++)
+	{
+		int end = pq.top();
+		if (vec[i].first >= pq.top()) {
+			pq.pop();
+			pq.push(vec[i].second);
+		}
+		else
+		{
+			pq.push(vec[i].second);
+			result++;
+		}
+	}
+	printf("%d", result);
+
+}
