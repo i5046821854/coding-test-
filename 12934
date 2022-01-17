@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+vector<long long>vec;
+
+int main(void) {
+	long long a, b;
+	cin >> a >> b;
+	long long temp = 0;
+	long long sum = 0;
+	while (sum < a + b)
+	{
+		temp++;
+		sum += temp;
+	}
+	if (sum != a + b)
+	{
+		printf("-1");
+		return 0;
+	}
+	long long result = 0;
+	while (a > 0)
+	{
+		result++;
+		a -= temp;
+		temp--;
+	}
+	printf("%lld", result);
+}
