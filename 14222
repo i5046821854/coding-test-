@@ -1,0 +1,56 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+
+int arr[50];
+int arr2[50];
+using namespace std;
+vector<int>vec;
+int main(void) {
+    int a, b;
+    cin >> a >> b;
+    int num;
+    for (int i = 0; i < a; i++)
+    {
+        cin >> num;
+        vec.push_back(num);
+    }
+    sort(vec.begin(), vec.end());
+    int idx = 0;
+    int cmp = 0;
+    for (int i = 1; i <= a; i++)
+    {
+        int add = 0;
+        int end = vec.size();
+        while (1)
+        {
+            int j;
+            for(j = 0 ; j < end; j++)
+            {
+                cmp = vec[j] + add;
+                if (cmp > i)
+                {
+                    end = j;
+                    break;
+                }
+                else if (cmp == i)
+                {
+                    vec.erase(vec.begin() + j);
+                    break;
+                }
+            }
+            if (end == 0)
+            {
+                printf("0");
+                return 0;
+            }
+            if (j < end)
+            {
+                break;
+            }
+            add += b;
+        }
+    }
+    printf("1");
+}
