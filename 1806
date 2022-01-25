@@ -1,0 +1,48 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <cstdio>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int sum = 0;
+int n = 0;
+int length = 0;
+int target = 0;
+vector<int> vec;
+int main(void)
+{
+	int start = 0;
+	int end = 0;
+	int temp, temp2;
+	int tempSum = 0;
+	scanf("%d %d", &n, &target);
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%d", &temp);
+		vec.push_back(temp);
+		sum += temp;
+	}
+	if (sum < target)
+		printf("0");
+	else {
+		length = n;
+		tempSum = vec[0];
+		while (start <= end)
+		{
+			if (tempSum >= target)
+			{
+				if ((end - start + 1) < length)
+					length = (end - start + 1);
+				tempSum -= vec[start++];
+			}
+			else if (tempSum < target)
+			{
+				if ((end + 1) == n)
+					break; 
+				tempSum += vec[++end];
+			}
+		}
+		printf("%d", length);
+	}
+	return 0;
+}
