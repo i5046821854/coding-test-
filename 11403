@@ -1,0 +1,49 @@
+#include <algorithm>
+#include <queue>
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+
+int arr[101][101] = { 0, };
+int visit[101][101] = { 0, };
+
+int main(void)
+{
+	int num;
+	cin >> num;
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			cin >> arr[i][j];
+			if (arr[i][j] == 0) {
+				arr[i][j] = 1000000;
+			}
+		}
+	}
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			for (int k = 0; k < num; k++)
+			{
+				arr[j][k] = min(arr[j][k], arr[j][i] + arr[i][k]);
+			}
+
+		}
+	}
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			if(arr[i][j] == 1000000)
+				printf("0 ");
+			else
+				printf("1 ");
+		}
+		printf("\n");
+	}
+
+
+}
