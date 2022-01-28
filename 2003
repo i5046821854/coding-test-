@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+int arr[10001];
+int main(void)
+{
+	int a, b;
+	cin >> a >> b;
+	for (int i = 0; i < a; i++)
+	{
+		cin >> arr[i];
+	}
+	int left = 0, right = 0, result = 0, temp = arr[0];
+	while (right < a)
+	{
+		if (temp > b)
+		{
+			temp -= arr[left];
+			if (left == right)
+			{
+				right++;
+			}
+			left++;
+		}
+		else if (temp < b)
+		{
+			right++;
+			temp += arr[right];
+		}
+		else
+		{
+			result++;
+			temp -= arr[left];
+			left++;
+			right++;
+			temp += arr[right];
+		}
+	}
+	printf("%d", result);
+}
