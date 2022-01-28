@@ -22,6 +22,7 @@ int main(void)
 			if (left == right)
 			{
 				right++;
+				temp += arr[right];
 			}
 			left++;
 		}
