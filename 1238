@@ -1,0 +1,57 @@
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+int n, m, x;
+
+
+vector<int> dijkstra(int start, int V, vector<pair<int, int>> adj[])
+{
+	vector<int>result(V+1, 10000000);
+	priority_queue<pair<int, int>>pq;
+	result[start] = 0;
+	pq.push(make_pair(0, start));
+	while (!pq.empty())
+	{
+		int cost = -pq.top().first;
+		int cur = pq.top().second;
+		pq.pop();
+		for (int i = 0; i < adj[cur].size(); i++)
+		{
+			int tnode = adj[cur][i].first;
+			int tcost = cost + adj[cur][i].second;
+			if (result[tnode] > tcost)
+			{
+				result[tnode] = tcost;
+				pq.push(make_pair(-tcost, tnode));
+			}
+		}
+	}
+	return result;
+}
+
+int main(void) {
+	cin >> n >> m >> x;
+	int result = 0;
+	vector<pair<int, int>>vec[1001];
+	int first, second, price;
+	for (int i = 0; i < m; i++)
+	{
+		cin >> first >> second >> price;
+		vec[first].push_back(make_pair(second, price));
+	}
+	vector<int>dist = dijkstra(x,n,vec);
+	for (int i = 1; i <= n; i++)
+	{
+		//printf("%d\n", i);
+		int temp;
+		if (i != x) {
+			temp = dijkstra(i, n, vec)[x];
+			result = max(result, temp + dist[i]);
+		}
+	}
+	printf("%d", result);
+}
