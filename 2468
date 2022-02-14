@@ -10,16 +10,17 @@ int ver[4] = { 1,0,-1,0 };
 int hor[4] = { 0,-1,0,1 };
 int num;
 int temp = 0;
-void find(int row, int col, int num)
+void find(int row, int col, int numb)
 {
 	visit[row][col] = 1;
 	int row2, col2;
+	//printf("%d %d %d\n", row, col, numb);
 	for (int i = 0; i < 4; i++)
 	{
 		row2 = row + ver[i];
 		col2 = col + hor[i];
-		if((visit[row2][col2] == 0)  && (row2 != num) && (col2 != num))
-			find(row2, col2, num);
+		if((visit[row2][col2] == 0)  && (row2 != num) && (row2 != -1) && (col2 != num) && (col2 != -1) && (arr[row2][col2] > numb) )
+			find(row2, col2, numb);
 	}
 }
 
@@ -27,8 +28,8 @@ int main(void)
 {
 	int result = 1;
 	cin >> num;
-	int minimum = 0;
-	int maximum = 100;
+	int minimum = 100;
+	int maximum = 0;
 	for (int i = 0; i < num; i++)
 	{
 		for (int j = 0; j < num; j++)
@@ -40,7 +41,7 @@ int main(void)
 	}
 	for (int a = minimum; a <= maximum; a++)
 	{
-		
+		temp = 0;
 		for (int i = 0; i < num; i++)
 		{
 			for (int j = 0; j < num; j++)
@@ -60,5 +61,8 @@ int main(void)
 				}
 			}
 		}
+		result = max(result, temp);
 	}
+	printf("%d", result);
+	return 0;
 }
