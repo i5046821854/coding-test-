@@ -1,0 +1,64 @@
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+
+using namespace std;
+
+int arr[100][100];
+int visit[100][100] = { 0, };
+int ver[4] = { 1,0,-1,0 };
+int hor[4] = { 0,-1,0,1 };
+int num;
+int temp = 0;
+void find(int row, int col, int num)
+{
+	visit[row][col] = 1;
+	int row2, col2;
+	for (int i = 0; i < 4; i++)
+	{
+		row2 = row + ver[i];
+		col2 = col + hor[i];
+		if((visit[row2][col2] == 0)  && (row2 != num) && (col2 != num))
+			find(row2, col2, num);
+	}
+}
+
+int main(void)
+{
+	int result = 1;
+	cin >> num;
+	int minimum = 0;
+	int maximum = 100;
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num; j++)
+		{
+			cin >> arr[i][j];
+			minimum = min(minimum, arr[i][j]);
+			maximum = max(maximum, arr[i][j]);
+		}
+	}
+	for (int a = minimum; a <= maximum; a++)
+	{
+		
+		for (int i = 0; i < num; i++)
+		{
+			for (int j = 0; j < num; j++)
+			{
+				visit[i][j] = 0;
+			}
+		}
+
+		for (int i = 0; i < num; i++)
+		{
+			for (int j = 0; j < num; j++)
+			{
+				if (visit[i][j] == 0 && arr[i][j] > a)
+				{
+					temp++;
+					find(i, j, a);
+				}
+			}
+		}
+	}
+}
