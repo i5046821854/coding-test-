@@ -1,0 +1,51 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <vector>
+
+using namespace std;
+
+int sushi[30001];
+int visit[3001] = { 0, };
+int main(void) {
+	int result = 0;
+	int n, d, k, c;
+	cin >> n >> d >> k >> c;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> sushi[i];
+	}
+	int start, end, dup = 0;
+	start = 0;
+	end = k - 1;
+	for (int i = 0; i < k; i++)
+	{
+		visit[sushi[i]]++;
+		if (visit[sushi[i]] >= 2)
+			dup++;
+	}
+	if (visit[c] == 0)
+		result = k - dup + 1;
+	else
+		result = k - dup;
+	for (int i = 1; i < n; i++)
+	{
+		if (visit[sushi[start]] >= 2)
+		{
+			dup--;
+		}
+		visit[sushi[start]]--;
+		start = i;
+		end = (i + (k - 1)) % n;
+		visit[sushi[end]]++;
+		if (visit[sushi[end]] >= 2)
+		{
+			dup++;
+		}
+		if (visit[c] == 0)
+			result = max(result, k - dup + 1);
+		else
+			result = max(result, k - dup);
+	}
+	printf("%d", result);
+}
