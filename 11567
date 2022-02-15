@@ -1,0 +1,65 @@
+#include <vector>
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+
+using namespace std;
+
+int main(void) {
+	int n, m;
+
+	vector<pair<pair<int,int>, int>> vec;
+	long long dist[510];
+	cin >> n >> m;
+	long long from, to, price;
+	for (int i = 0; i <= n; i++)
+	{
+		dist[i] = 1e9;
+	}
+	dist[1] = 0;
+	for (int j = 0; j < m; j++)
+	{
+		cin >> from >> to >> price;
+		vec.push_back(make_pair(make_pair(from, to ), price ));
+	}
+
+	for (int i = 0; i < n-1; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			long long from, to, price;
+			from = vec[j].first.first;
+			to = vec[j].first.second;
+			price = vec[j].second;
+			if (dist[from] != 1e9)
+			{
+				if (dist[to] > dist[from] + price)
+				{
+					dist[to] = dist[from] + price;
+				}
+			}
+		}
+	}
+	for (int j = 0; j < m; j++)
+	{
+		long long from, to, price;
+		from = vec[j].first.first;
+		to = vec[j].first.second;
+		price = vec[j].second;
+		if (dist[from] != 1e9)
+		{
+			if (dist[to] > dist[from] + price)
+			{
+				printf("-1");
+				return 0;
+			}
+		}
+	}
+	for (int i = 2; i <= n; i++)
+	{
+		if(dist[i] == 1e9)
+			printf("-1\n");
+		else
+			printf("%lld\n", dist[i]);
+	}
+}
