@@ -1,0 +1,48 @@
+#include <vector>
+#include <algorithm>
+#include <cstdio>
+#include <iostream>
+
+using namespace std;
+long long arr[101][101] = { 0, };
+
+int main(void) {
+	int n, m;
+	cin >> n >> m;
+	for (int i = 0; i <= n; i++)
+	{
+		for (int j = 0; j <= n; j++)
+		{
+			if (i == j)
+				arr[i][j] = 0;
+			else
+				arr[i][j] = 1e9;
+		}
+	}
+
+	int from, to, weight;
+	for (int i = 0; i < m; i++)
+	{
+		cin >> from >> to >> weight;
+		if(arr[from][to] > weight)
+			arr[from][to] = weight;
+	}
+
+	for (int k = 1; k <= n; k++)  
+		for (int i = 1; i <= n; i++) 
+			for (int j = 1; j <= n; j++)  
+				if (arr[i][k] + arr[k][j] < arr[i][j]) 
+					arr[i][j] = arr[i][k] + arr[k][j];
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			if (arr[i][j] == 1e9)
+				printf("0 ");
+			else
+				printf("%lld ", arr[i][j]);
+		}
+		printf("\n");
+	}
+
+}
