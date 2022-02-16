@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+long long arr[100000];
+
+int main(void) {
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> arr[i];
+	}
+	sort(arr, arr + n);
+	long long ridx, start, end, result;
+	ridx = 0;
+	start = 1;
+	end = n - 1;
+	result = arr[ridx] + arr[start] + arr[end];
+	for (int idx = 0; idx < n; idx++) {
+		long long tstart = 0;
+		long long tend = n-1;
+		while (tstart < tend)
+		{
+			if (tstart == idx)
+			{
+				tstart++;
+				continue;
+			}
+			if (tend == idx)
+			{
+				tend--;
+				continue;
+			}
+			long long temp = arr[idx] + arr[tstart] + arr[tend];
+			if (result * result > temp * temp)
+			{
+				//printf("%d\n", temp);
+				result = temp;
+				start = tstart;
+				end = tend;
+				ridx = idx;
+			}
+			if (temp >= 0)
+			{
+				tend--;
+			}
+			else
+			{
+				tstart++;
+			}
+		}
+	}
+	printf("%lld %lld %lld", arr[ridx], arr[start], arr[end]);
+	return 0;
+}
