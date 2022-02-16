@@ -1,0 +1,52 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+long long arr[100000];
+
+int main(void)
+{
+	long long num, target;
+	cin >> num>>target;
+	for (int i = 0; i < num; i++)
+	{
+		cin >> arr[i];
+	}
+	if (target > 0) {
+		sort(arr, arr + num);
+	}
+	int start = 0;
+	int end = 1;
+	long long temp, diff = 2e9 + 1;
+	while (1)
+	{
+		if (start == end)
+		{
+			end++;
+		}
+		if (end == num)
+			break;
+		temp = arr[end] - arr[start];
+		if(temp == target)
+		{
+			printf("%lld", temp);
+			return 0;
+		}
+		else if(temp > target)
+		{
+			if (temp < diff)
+			{
+				diff = temp;
+			}
+			start++ ;
+		}
+		else
+		{
+			end++;
+		}
+	}
+	printf("%lld", diff);
+}
