@@ -1,0 +1,19 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+int arr[100001] = { 0, };
+int main(void)
+{
+	int N,K,B;
+	cin >> N >> K >> B;
+	int num;
+	for (int i = 1; i <= B; i++)
+	{
+		cin >> num;
+		arr[num] = 1;
+	}
+}
