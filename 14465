@@ -16,4 +16,26 @@ int main(void)
 		cin >> num;
 		arr[num] = 1;
 	}
+	int temp = 1e9;
+	int way = 0;
+	int idx;
+	for (int i = 1; i <= N; i++)
+	{
+		way = 0;
+		idx = i;
+		while (idx != i + K)
+		{
+			if (idx > N)
+			{
+				printf("%d", temp);
+				return 0;
+			}
+			if (arr[idx] == 1)
+			{
+				way++;
+			}
+			idx++;
+		}
+		temp = min(way, temp);
+	}
 }
