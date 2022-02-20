@@ -23,12 +23,12 @@ int main(void)
 		gap = end - start - 1;
 		small = min(arr[start], arr[end]);
 		result = max(result, gap * small);
-		if (min(arr[start + 1], arr[end]) > min(arr[start], arr[end - 1]))
+		if (arr[start] > arr[end])
 		{
-			start++;
+			end--;
 		}
 		else
-			end--;
+			start++;
 	}
 	printf("%d", result);
 	return 0;
