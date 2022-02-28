@@ -1,0 +1,26 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+
+using namespace std; 
+
+int num = 1; 
+
+int main()
+{
+	int n;
+	cin >> n;
+
+	int result, temp;
+	while (n)
+	{
+		result += (n % 7) * num; 
+		n /= 7;
+		num *= 3;
+	}
+	printf("%d", result);
+	return 0;
+}
