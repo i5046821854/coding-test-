@@ -1,0 +1,58 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <string>
+
+using namespace std;
+int arr[128] = { 0, };
+int main(void)
+{
+	int num = 1;
+	int start = 0, end = 1, len = 1, result = 0, cha = 1;
+	string str;
+	cin >> num;
+	while (num)
+	{
+		getchar();
+		getline(cin, str);
+		arr[str[start]] = 1;
+		while (end != str.length())
+		{
+			int idx = str[end];
+			if (arr[idx] == 0)   //중복 없을 때
+			{
+				len++;
+				cha++;
+				//printf("%d %d\n", len, cha);
+				while (cha > num)
+				{
+					arr[str[start]]--;
+					if (arr[str[start]] == 0)
+					{
+						cha--;
+					}
+					start++;
+					len--;
+				}
+				result = max(result, len);
+				arr[idx]++;
+			}
+			else  //중복 있을 때
+			{
+				len++;
+				arr[idx]++;
+				result = max(result, len);
+			}
+			end++;
+		}
+		printf("%d\n", result);
+		start = 0, end = 1, len = 1, result = 0, cha = 1;
+		for (int i = 0; i < 128; i++)
+		{
+			arr[i] = 0;
+		}
+		cin >> num;
+	}
+}
