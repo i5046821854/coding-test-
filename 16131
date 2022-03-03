@@ -1,0 +1,134 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+int ran[110];
+
+int pl[55][110];
+int mi[55][110];
+int arr[55][110];
+int score[110];
+
+int N, A, B, M;
+
+int good = 0;
+int goodSer = 0;
+int goodTemp = 0;
+int goodflag = 0;
+
+int hong, jo;
+
+void change(int a, int b, int c, int d)
+{
+
+	int temp1 = ran[a];
+	ran[a] = ran[b];
+	ran[b] = temp1;
+	score[c] += 2;
+	score[d] -= 2;
+
+}
+void changeSeat(int day)
+{
+	for (int i = 1; i < N ; i++)
+	{
+		int cmp1 = ran[i];
+		int cmp2 = ran[i+1];
+
+		int first = score[cmp1];
+		int second = score[cmp2];
+		if (first >= 0 && second >= 0)
+		{
+			if (second - first >= 2)
+			{
+				change(i, i+1, cmp1, cmp2);
+			}
+		}
+		if (first >= 0 && second < 0)
+		{
+			continue;
+		}
+		if (first < 0 && second >= 0)
+		{
+			change(i, i + 1, cmp1, cmp2);
+		}
+		if (first < 0 && second < 0)
+		{
+			if (second - first >= 4)
+			{
+				change(i, i + 1, cmp1, cmp2);
+			}
+		}
+	}
+}
+
+int main(void)
+{
+    ios_base :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+	
+    cin >> N >> A >> B >> M;
+	jo = 1;
+	hong = A;
+	if (hong - jo <= B)
+	{
+		good++;
+		goodSer++;
+		goodTemp++;
+		goodflag = 1;
+	}
+	for (int i = 1; i <= N; i++)
+	{
+		ran[i] = i;
+	}
+	for (int i = 1; i < M; i++)
+	{
+		for (int j = 1; j <= N; j++)
+		{
+			cin >> pl[i][j];
+		}
+		for (int j = 1; j <= N; j++)
+		{
+			cin >> mi[i][j];
+		}
+		for (int j = 1; j <= N; j++)
+		{
+			score[j] = pl[i][j] - mi[i][j];
+		}
+		changeSeat(i);
+		for (int j = 1; j <= N; j++)
+		{
+			if (ran[j] == 1)
+				jo = j;
+			else if (ran[j] == A)
+				hong = j;
+		}
+		if (abs(hong - jo) <= B)
+		{
+			good++;
+			if (goodflag)
+			{
+				goodTemp++;
+			}
+			else
+			{
+				goodTemp = 1;
+				goodflag = 1;
+			}
+			goodSer = max(goodTemp, goodSer);
+		}
+		else {
+			goodTemp = 0;
+			goodflag = 0;
+		}
+	}
+	printf("%d %d", good, goodSer);
+	return 0;
+}
+
