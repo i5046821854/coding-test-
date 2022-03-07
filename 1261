@@ -7,10 +7,12 @@
 using namespace std;
 
 queue<pair<int, int>>pq;
-int arr[100][100];
-int dist[100][100] = { 0, };
+int arr[101][101];
+int dist[101][101] = { 0, };
 int hor[4] = {0,1,0,-1};
 int ver[4] = {-1,0,1,0};
+
+int row, col;
 
 void move(int x, int y)
 {
@@ -24,13 +26,14 @@ void move(int x, int y)
 		{
 			nx = x + ver[i];
 			ny = y + hor[i];
-			printf("%d %d\n", dist[x][y], dist[nx][ny]);
+			if (nx < 0 || ny < 0 || nx >= col || ny >= row)
+				continue;
 			if (arr[nx][ny] == 0)
 			{
 				if (dist[x][y] < dist[nx][ny])
 				{
 					dist[nx][ny] = dist[x][y];
-					pq.push({ x,y });
+					pq.push({ nx,ny });
 				}
 			}
 			else if (arr[nx][ny] == 1)
@@ -38,7 +41,7 @@ void move(int x, int y)
 				if (dist[x][y] + 1 < dist[nx][ny])
 				{
 					dist[nx][ny] = dist[x][y] + 1;
-					pq.push({ x,y });
+					pq.push({ nx,ny });
 				}
 
 			}
@@ -48,28 +51,19 @@ void move(int x, int y)
 }
 
 int main(void) {
-	int row, col;
 	char temp;
 	cin >> row >> col;
-	for (int i = 0; i < row; i++)
+	for (int i = 0; i < col; i++)
 	{
-		for (int j = 0; j < col; j++)
+		for (int j = 0; j < row; j++)
 		{
 			cin >> temp;
 			arr[i][j] = temp - '0';
 			dist[i][j] = 987654231;
 		}
 	}
-	for (int i = 0; i < row; i++)
-	{
-		for (int j = 0; j < col; j++)
-		{
-			printf("%d ", arr[i][j]);
-		}
-		printf("\n");
-	}
 	dist[0][0] = 0;
 	pq.push({ 0,0 });
 	move(0, 0);
-	printf("%d", dist[row - 1][col - 1]);
+	printf("%d", dist[col - 1][row - 1]);
 }
