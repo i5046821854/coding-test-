@@ -1,0 +1,50 @@
+
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+int share[101];
+int team[101];
+
+int main(void)
+{
+	int N,K;
+	cin >> N >> K;
+	for (int i = 0; i < N; i++)
+	{
+		cin >> share[i];
+	}
+	for (int i = 0; i < N; i++)
+	{
+		cin >> team[i];
+	}
+	sort(share, share + N);
+	sort(team, team + N);
+	int temp;
+	for (int idx = 0; idx <= K; idx++)
+	{
+		int a = 0;
+		temp = -123456789;
+		for (int i = 0; i < N - idx; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				if (temp <= team[i] * share[j])
+				{
+					temp = team[i] * share[j];
+					a = i;
+				}
+			}
+		}
+		if (idx == K)
+		{
+			printf("%d", temp);
+		}
+		team[a] = team[N - idx - 1];
+	}
+
+
+}
