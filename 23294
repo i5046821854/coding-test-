@@ -1,0 +1,125 @@
+
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <stack>
+
+
+using namespace std;
+int site[2001];
+int cache = 0;
+int cur = 0;
+int N, Q, C;
+int first = 0;
+vector<int> backSto;
+vector<int> frontSto;
+void back() {
+	if (!backSto.empty())
+	{
+		frontSto.push_back(cur);
+		int end = backSto.size() - 1;
+		cur = backSto[end];
+		backSto.erase(backSto.begin() + end);
+	}
+}
+void front() {
+	if (!frontSto.empty())
+	{
+		backSto.push_back(cur);
+		int end = frontSto.size() - 1;
+		cur = frontSto[end];
+		frontSto.erase(frontSto.begin() + end);
+	}
+}
+void access(int idx)
+{
+	for (int i = 0; i < frontSto.size(); i++)
+	{
+		cache -= site[frontSto[i]];
+	}
+	frontSto.clear();
+	if(first != 1)
+		backSto.push_back(cur);
+	else
+		first = 2;
+	cur = idx;
+	cache += site[idx];
+	while(cache > C)
+	{
+		int end = 0;
+		cache -= site[backSto[end]];
+		backSto.erase(backSto.begin() + end);
+	}
+
+}
+void compress()
+{
+	int end = backSto.size()-1;
+	for (int i = 0; i < end; i++)
+	{
+		if (backSto[i + 1] == backSto[i])
+		{
+			cache -= site[backSto[i]];
+			backSto.erase(backSto.begin() + i);
+			i--;
+			end--;
+		}
+	}
+}
+int main(void)
+{
+	cin >> N >> Q >> C;
+	for (int i = 1; i <= N; i++)
+	{
+		cin >> site[i];
+	}
+	char query;
+	int num;
+	for (int i = 0; i < Q; i++)
+	{
+		cin >> query;
+		if (query == 'A')
+		{
+			cin >> num;
+			if (first == 0)
+				first = 1;
+			access(num);
+		}
+		else
+		{
+			if (query == 'B')
+			{
+				back();
+			}
+			else if (query == 'F')
+			{
+				front();
+			}
+			else
+			{
+				compress();
+			}
+		}
+	}
+	printf("%d\n", cur);
+	if (backSto.size() == 0)
+		printf("-1");
+	else {
+		for (int i = 0; i < backSto.size(); i++)
+		{
+			printf("%d ", backSto[backSto.size() - i - 1]);
+		}
+	}
+	printf("\n");
+	if (frontSto.size() == 0)
+		printf("-1");
+	else 
+	{
+		for (int i = 0; i < frontSto.size(); i++)
+		{
+			printf("%d ", frontSto[frontSto.size() - i - 1]);
+		}
+	}
+}
