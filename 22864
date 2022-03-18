@@ -1,0 +1,30 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+using namespace std;
+
+int main(void)
+{
+	int A, B, C, M;
+	cin >> A >> B >> C >> M;
+	int hour = 0;
+	int fat = 0;
+	int work = 0;
+	for (hour = 0; hour < 24; hour++)
+	{
+		if (fat + A <= M)
+		{
+			work+= B;
+			fat += A;
+		}
+		else
+		{
+			fat = max(fat - C, 0);
+		}
+	}
+	printf("%d", work);
+	return 0;
+}
