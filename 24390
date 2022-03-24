@@ -1,0 +1,43 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cstdio>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+int main(void) {
+
+	int cook[4] = { 600,60,30,10 };
+
+	string str;
+	cin >> str;
+	int m = stoi(str.substr(0, 2));
+	int s = stoi(str.substr(3, 2));
+	int time = m * 60 + s;
+	//printf("%d\n", time);
+	int result = 1;
+	int idx = 0;
+	while (time != 0)
+	{
+		//printf("%d, %d\n", time, idx);
+		if (time == 30)
+		{
+			break;
+		}
+		if (cook[idx] == 30)
+		{
+			if (time >= 30)
+			{
+				result += (time / cook[idx]) - 1;
+				time = time % cook[idx];
+			}
+			idx++;
+			continue;
+		}
+		result += (time / cook[idx]);
+		time = time % cook[idx];
+		idx++;
+	}
+	printf("%d", result);
+}
