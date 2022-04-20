@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+int arr1[100][100] = { 0, };
+int arr2[100][100] = { 0, };
+int r, c;
+int compare()
+{
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			if (arr1[i][j] != arr2[i][j]) {
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
+int ver[4] = { 0,1,0,-1 };
+int hor[4] = { 1,0,-1,0 };
+int changeNum;
+void change(int row, int col, int val)
+{
+	int nextV, nextH;
+	for (int i = 0; i < 4; i++)
+	{
+		arr1[row][col] = changeNum;
+		nextV = row + ver[i];
+		nextH = col + hor[i];
+		if (nextV == -1 || nextV == r || nextH == -1 || nextH == c || arr1[nextV][nextH] != val)
+		{
+			continue;
+		}
+		else
+			change(nextV, nextH, val);
+	}
+}
+int main(void)
+{
+	cin >> r >> c;
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			cin >> arr1[i][j];
+		}
+	}
+	int cmp = 0;
+	int num = 0;
+	int row = 0, col = 0;
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			cin >> cmp;
+			if (cmp != arr1[i][j])
+			{
+				if (num == 0)
+				{
+					row = i;
+					col = j;
+				}
+				num++;
+			}
+			arr2[i][j] = cmp;
+		}
+	}
+	if (num == 0)
+	{
+		printf("YES");
+		return 0;
+	}
+	changeNum = arr2[row][col];
+	change(row, col, arr1[row][col]);
+
+	if (compare() == 0)
+		printf("NO");
+	else
+		printf("YES");
+
+}
