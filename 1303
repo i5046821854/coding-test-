@@ -1,0 +1,58 @@
+#include <iostream>
+
+using namespace std;
+
+char arr[101][101];
+int visit[101][101] = { 0, };
+int r, c;
+int w = 0, b = 0;
+int ver[4] = { 0,1,0,-1 };
+int hor[4] = { 1,0,-1,0 };
+int tempW = 0, tempB = 0;
+void find(int row, int col, char team)
+{
+	if (team == 'W')
+		tempW++;
+	else
+		tempB++;
+	visit[row][col] = 1;
+	int nextR, nextC;
+	for (int i = 0; i < 4; i++)
+	{
+		nextR = row + ver[i];
+		nextC = col + hor[i];
+		if (nextR == -1 || nextC == -1 || nextR == r || nextC == c || arr[nextR][nextC] != team)
+			continue;
+		else if (visit[nextR][nextC] == 1)
+			continue;
+		else {
+			find(nextR, nextC, team);
+		}
+	}
+}
+int main(void)
+{
+	cin >> c >> r;
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			tempW = 0;
+			tempB = 0;
+			if (visit[i][j] == 0) {
+				find(i, j, arr[i][j]);
+				w = w + tempW * tempW;
+				b = b + tempB * tempB;
+			}
+		}
+	}
+	printf("%d %d", w, b);
+	return 0;
+}
