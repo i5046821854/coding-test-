@@ -1,0 +1,77 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+map<int, vector<pair<int, int>>> m;
+vector<int> dist(50001, 1e9);
+vector<int> top(50001, 1e9);
+pair<int, int> result = {0,1e9};
+vector<int> answer(2,1e9);
+priority_queue<pair<int, int>> q;
+void bfs(int gate)
+{
+    vector<pair<int, int>> vec = m[gate];
+    for (int i = 0; i < vec.size(); i++)
+    {
+            q.push({vec[i].second * -1, vec[i].first });
+    }
+    while (!q.empty())
+    {
+        int node = q.top().second;
+        int distance = q.top().first * -1;
+        q.pop();
+        dist[node] = distance;
+        if(top[node] == -2){
+            if(distance <= answer[1])
+            {
+                if(distance < answer[1])
+                {
+                    answer[0] = node;
+                    answer[1] = distance;
+                }
+                else if(node < answer[0])
+                {
+                    answer[0] = node;
+                    answer[1] = distance;
+                }
+            }
+            continue;
+        }
+        if (distance > answer[1])
+            break;
+        vector<pair<int, int>> temp = m[node];
+        for (int i = 0; i < temp.size(); i++)
+        {
+            int next = temp[i].first;
+            int tempD = temp[i].second;
+            int nextD = max(distance, tempD);
+
+            if (dist[next] > nextD && top[next] != -3)
+            {
+                q.push({ nextD * -1, next });
+            }
+        }
+    }
+}
+
+vector<int> solution(int n, vector<vector<int>> paths, vector<int> gates, vector<int> summits) {
+    for (int i = 0; i < paths.size(); i++)
+    {
+        vector<int> path = paths[i];
+        m[path[0]].push_back({ path[1], path[2] });
+        m[path[1]].push_back({ path[0], path[2] });
+    }
+    for (int i = 0; i < summits.size(); i++)
+        top[summits[i]] = -2;
+    for (int j = 0; j < gates.size(); j++)
+        top[gates[j]] = -3;
+    vector<int> vec2 = dist;
+    for (int j = 0; j < gates.size(); j++)
+    {
+        bfs(gates[j]);
+    }
+    return answer;
+}
