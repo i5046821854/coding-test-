@@ -10,7 +10,7 @@ vector<pair<int, int>> vec;
 
 bool compare(int a, int b)
 {
-		return a < b;
+	return a < b;
 }
 bool compare2 (int a, int b)
 {
