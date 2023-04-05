@@ -1,0 +1,48 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+long long dp(vector<int> sequence) {
+	int len = sequence.size();
+	long long dp[500000] = { 0, };
+	dp[0] = sequence[0];
+	long long temp = dp[0];
+	for (int i = 1; i < len; i++) {
+		if (sequence[i] > 0) {
+			if (dp[i - 1] < 0) {
+				dp[i] = sequence[i];
+			}
+			else {
+				dp[i] = dp[i - 1] + sequence[i];
+			}
+			temp = max(temp, dp[i]);
+		}
+		else {
+			if (dp[i - 1] + sequence[i] > 0) {
+				dp[i] = dp[i - 1] + sequence[i];
+				temp = max(temp, dp[i]);
+			}
+			else {
+				dp[i] = 0;
+			}
+		}
+	}
+    return temp;
+}
+
+long long solution(vector<int> sequence) {
+    long long answer = 0;
+    int mul = -1;
+    for(int i = 0; i < sequence.size()  ; i++){
+        sequence[i] *= mul;
+        mul *= -1;
+    }
+    answer = dp(sequence);
+    for(int i = 0; i < sequence.size()  ; i++){
+        sequence[i] *= -1;
+    }
+    answer = max(answer, dp(sequence));
+    return answer;
+}
